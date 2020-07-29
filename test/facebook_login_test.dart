@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_facebook_login/src/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'custom_matchers.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   group('$FacebookLogin', () {
     const channel = MethodChannel('com.roughike/flutter_facebook_login');
 
@@ -16,17 +18,14 @@ void main() {
         DateTime.fromMillisecondsSinceEpoch(1463378400001, isUtc: true);
 
     const kAccessToken = {
-      'token': 'test_token',
-      'userId': 'test_user_id',
+      'token':
+          'EAADue3uNNZA4BAKM4LZCy3L2Uv0p5yO5Wy1YFwA1jfi6tZBGZB9lj4QtZCyxHIGryTTH8CzRpiQdNxwXyufJq04CiH8J35kuPX46jjFF7d32ZAmNQZBM1qNxyG3oVw4hZAKSsjRZBdJUj7q5vpob7IxLx009qjrleuDAtuBZAUw1WstOkOs19vXNhuI6wrk6OzXYuyVhGV59xBkHOmISpea5k1',
+      'userId': '108081706791054',
       'expires': 1463378400000,
       'permissions': [
-        'test_permission_1',
-        'test_permission_2',
+        'public_profile',
       ],
-      'declinedPermissions': [
-        'test_declined_permission_1',
-        'test_declined_permission_2',
-      ],
+      'declinedPermissions': [],
     };
 
     const kLoggedInResponse = {
@@ -61,18 +60,15 @@ void main() {
     }
 
     void expectAccessTokenParsedCorrectly(FacebookAccessToken accessToken) {
-      expect(accessToken.token, 'test_token');
-      expect(accessToken.userId, 'test_user_id');
+      expect(accessToken.token,
+          'EAADue3uNNZA4BAKM4LZCy3L2Uv0p5yO5Wy1YFwA1jfi6tZBGZB9lj4QtZCyxHIGryTTH8CzRpiQdNxwXyufJq04CiH8J35kuPX46jjFF7d32ZAmNQZBM1qNxyG3oVw4hZAKSsjRZBdJUj7q5vpob7IxLx009qjrleuDAtuBZAUw1WstOkOs19vXNhuI6wrk6OzXYuyVhGV59xBkHOmISpea5k1');
+      expect(accessToken.userId, '108081706791054');
       expectExpiresDateParsedCorrectly(accessToken.expires);
       expect(accessToken.permissions, [
-        'test_permission_1',
-        'test_permission_2',
+        'public_profile',
       ]);
 
-      expect(accessToken.declinedPermissions, [
-        'test_declined_permission_1',
-        'test_declined_permission_2',
-      ]);
+      expect(accessToken.declinedPermissions, []);
     }
 
     setUp(() {
@@ -95,6 +91,18 @@ void main() {
 
       final result = await sut.logIn([]);
       final map = result.accessToken.toMap();
+      /*
+      const kAccessToken = {
+      'token': 'EAADue3uNNZA4BAKM4LZCy3L2Uv0p5yO5Wy1YFwA1jfi6tZBGZB9lj4QtZCyxHIGryTTH8CzRpiQdNxwXyufJq04CiH8J35kuPX46jjFF7d32ZAmNQZBM1qNxyG3oVw4hZAKSsjRZBdJUj7q5vpob7IxLx009qjrleuDAtuBZAUw1WstOkOs19vXNhuI6wrk6OzXYuyVhGV59xBkHOmISpea5k1',
+      'userId': '108081706791054',
+      'expires': 1463378400000,
+      'permissions': [
+        'public_profile',
+      ],
+      'declinedPermissions': [
+      ],
+    };
+      */
 
       expect(
         map,
@@ -102,17 +110,14 @@ void main() {
         // Just copy-pasting the kAccessToken here. This is just in case;
         // we could accidentally make this test non-deterministic.
         {
-          'token': 'test_token',
-          'userId': 'test_user_id',
+          'token':
+              'EAADue3uNNZA4BAKM4LZCy3L2Uv0p5yO5Wy1YFwA1jfi6tZBGZB9lj4QtZCyxHIGryTTH8CzRpiQdNxwXyufJq04CiH8J35kuPX46jjFF7d32ZAmNQZBM1qNxyG3oVw4hZAKSsjRZBdJUj7q5vpob7IxLx009qjrleuDAtuBZAUw1WstOkOs19vXNhuI6wrk6OzXYuyVhGV59xBkHOmISpea5k1',
+          'userId': '108081706791054',
           'expires': 1463378400000,
           'permissions': [
-            'test_permission_1',
-            'test_permission_2',
+            'public_profile',
           ],
-          'declinedPermissions': [
-            'test_declined_permission_1',
-            'test_declined_permission_2',
-          ],
+          'declinedPermissions': [],
         },
       );
     });
